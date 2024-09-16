@@ -23,7 +23,9 @@ Users can input questions, and the system will retrieve the most relevant answer
 ## Technologies
 
 OpenAI as LLM
+
 PostgreSQL to save questions, answers and user feedback
+
 Elasticsearch to retrieve data
 
 ## Preparation
