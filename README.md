@@ -62,12 +62,19 @@ minsearch result on question : {'hit_rate': 0.7569620253164557, 'mrr': 0.5881434
 Cosine similarity statistics for original answer and llm answer estimated on ground truth data
 
 count    395.000000
+
 mean       0.776664
+
 std        0.139467
+
 min        0.220716
+
 25%        0.705947
+
 50%        0.798396
+
 75%        0.879593
+
 max        1.000000
 
 ### RAG flow evaluation
