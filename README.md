@@ -53,41 +53,32 @@ knn = 5
 
 Vector search result on "question_answer_vector":
 
-'hit_rate': 0.8126582278481013, 'mrr': 0.649282700421941
+'hit_rate': 0.81, 'mrr': 0.65
 
 
 Vector search "answer_vector" : 
 
-'hit_rate': 0.7873417721518987, 'mrr': 0.609662447257384
+'hit_rate': 0.79, 'mrr': 0.61
 
 
 Vector search result on "question_vector":
 
-'hit_rate': 0.6379746835443038, 'mrr': 0.4820675105485234
+'hit_rate': 0.64, 'mrr': 0.48
 
 
 minsearch result on question: 
 
-'hit_rate': 0.7569620253164557, 'mrr': 0.5881434599156119
+'hit_rate': 0.76, 'mrr': 0.59
 
 
 ### Cosine similarity statistics for original answer and llm answer estimated on ground truth data
 
-count    395.000000
+count    395
 
-mean       0.776664
+mean       0.78
 
-std        0.139467
+std        0.14
 
-min        0.220716
-
-25%        0.705947
-
-50%        0.798396
-
-75%        0.879593
-
-max        1.000000
 
 ### RAG flow evaluation
 
