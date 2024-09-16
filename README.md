@@ -80,6 +80,9 @@ max        1.000000
 ### RAG flow evaluation
 
 LLM as judge using prompt1_template =
+
+"""
+
 You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
 Your task is to analyze the relevance of the generated answer compared to the original answer provided.
 Based on the relevance and similarity of the generated answer to the original answer, you will classify
@@ -100,14 +103,18 @@ answer and provide your evaluation in parsable JSON without using code blocks:
 }}
 """.strip()
 
-Relevance
+### Relevance
+
 RELEVANT           299
+
 PARTLY_RELEVANT     96
 
 
 
 for prompt2_template =
+
 """
+
 You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
 Your task is to analyze the relevance of the generated answer to the given question.
 Based on the relevance of the generated answer, you will classify it
@@ -127,8 +134,10 @@ and provide your evaluation in parsable JSON without using code blocks:
 }}
 """.strip()
 
-Relevance
+### Relevance
+
 RELEVANT           382
+
 PARTLY_RELEVANT     13
 
 
