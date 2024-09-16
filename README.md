@@ -1,3 +1,4 @@
+
 # Diets-RAG
 
 ## Problem Description
@@ -8,9 +9,9 @@ To solve this problem, **Diets-RAG (Retriever-Augmented Generation)** aims to pr
 
 ## Dataset and Approach
 
-The current dataset is sourced from frequently asked questions about the Keto diet from trusted online resources. However, as the project evolves, the dataset will also incorporate information from the **most recent research papers** and studies on various diets. This will ensure that the information provided is up-to-date and based on the latest scientific findings, offering users reliable and evidence-based guidance.
+The current dataset is sourced from frequently asked questions about the Keto diet from trusted online resources. As the project evolves, the dataset will also incorporate information from the **most recent research papers** and studies on various diets. This ensures that the information provided is up-to-date and based on the latest scientific findings, offering users reliable and evidence-based guidance.
 
-Users can input questions, and the system will retrieve the most relevant answers, giving them clear, concise, and accurate information. As the database expands to include other diets, the goal is to provide a **comprehensive, user-friendly tool** to help individuals make informed dietary choices based on the recent research.
+Users can input questions, and the system retrieves the most relevant answers, providing clear, concise, and accurate information. As the database expands to include other diets, the goal is to provide a **comprehensive, user-friendly tool** to help individuals make informed dietary choices based on recent research.
 
 ## Current Dataset Sources
 
@@ -19,73 +20,63 @@ Users can input questions, and the system will retrieve the most relevant answer
 - [Ruled.me - Ketogenic Diet FAQ](https://www.ruled.me/ketogenic-diet-faq/#standard_keto)
 - [Diabetes.co.uk - Ketogenic Diet FAQs](https://www.diabetes.co.uk/keto/ketogenic-diet-faqs.html)
 
-
 ## Technologies
 
-OpenAI as LLM
-
-PostgreSQL to save questions, answers and user feedback
-
-Elasticsearch to retrieve data
+- **OpenAI** as the LLM
+- **PostgreSQL** to save questions, answers, and user feedback
+- **Elasticsearch** to retrieve data
 
 ## Preparation
 
-Add your OpenAI API key to the .env file:
+1. Add your OpenAI API key to the `.env` file:
 
-OPENAI_API_KEY='your-openai-api-key-here'
+    ```bash
+    OPENAI_API_KEY='your-openai-api-key-here'
+    ```
 
-To run and initialize postgres, elasticsearch and streamlit run the following commands:
+2. To run and initialize PostgreSQL, Elasticsearch, and Streamlit, run the following commands:
 
-docker-compose up
-
-export POSTGRES_HOST="127.0.0.1"
-
-python prep.py
+    ```bash
+    docker-compose up
+    export POSTGRES_HOST="127.0.0.1"
+    python prep.py
+    ```
 
 ## Experiments
 
-check rag_test.ipynb
+Check the `rag_test.ipynb` file for detailed experiments.
 
+### Retrieval Evaluation
 
-### Retrieval evaluation
+Using **k-NN (k=5)** with vector search, the following results were obtained:
 
-knn = 5
+- **Vector search on "question_answer_vector"**:  
+  - Hit rate: `0.81`
+  - MRR (Mean Reciprocal Rank): `0.65`
 
-Vector search result on "question_answer_vector":
+- **Vector search on "answer_vector"**:  
+  - Hit rate: `0.79`
+  - MRR: `0.61`
 
-'hit_rate': 0.81, 'mrr': 0.65
+- **Vector search on "question_vector"**:  
+  - Hit rate: `0.64`
+  - MRR: `0.48`
 
+- **Minsearch result on question**:  
+  - Hit rate: `0.76`
+  - MRR: `0.59`
 
-Vector search "answer_vector" : 
+### Cosine Similarity Statistics for Original Answer and LLM Answer
 
-'hit_rate': 0.79, 'mrr': 0.61
+- **Sample count**: `395`
+- **Mean**: `0.78`
+- **Standard Deviation**: `0.14`
 
+### RAG Flow Evaluation
 
-Vector search result on "question_vector":
+**LLM as a judge** using `prompt1_template`:
 
-'hit_rate': 0.64, 'mrr': 0.48
-
-
-minsearch result on question: 
-
-'hit_rate': 0.76, 'mrr': 0.59
-
-
-### Cosine similarity statistics for original answer and llm answer estimated on ground truth data
-
-count    395
-
-mean       0.78
-
-std        0.14
-
-
-### RAG flow evaluation
-
-LLM as judge using prompt1_template =
-
-"""
-
+```plaintext
 You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
 Your task is to analyze the relevance of the generated answer compared to the original answer provided.
 Based on the relevance and similarity of the generated answer to the original answer, you will classify
@@ -100,24 +91,20 @@ Generated Answer: {answer_llm}
 Please analyze the content and context of the generated answer in relation to the original
 answer and provide your evaluation in parsable JSON without using code blocks:
 
-{{
+{
   "Relevance": "NON_RELEVANT" | "PARTLY_RELEVANT" | "RELEVANT",
   "Explanation": "[Provide a brief explanation for your evaluation]"
-}}
-""".strip()
+}
+```
 
-### Relevance
+#### Relevance Results:
 
-RELEVANT           299
+- **RELEVANT**: `299`
+- **PARTLY_RELEVANT**: `96`
 
-PARTLY_RELEVANT     96
+**For `prompt2_template`**:
 
-
-
-for prompt2_template =
-
-"""
-
+```plaintext
 You are an expert evaluator for a Retrieval-Augmented Generation (RAG) system.
 Your task is to analyze the relevance of the generated answer to the given question.
 Based on the relevance of the generated answer, you will classify it
@@ -131,23 +118,26 @@ Generated Answer: {answer_llm}
 Please analyze the content and context of the generated answer in relation to the question
 and provide your evaluation in parsable JSON without using code blocks:
 
-{{
+{
   "Relevance": "NON_RELEVANT" | "PARTLY_RELEVANT" | "RELEVANT",
   "Explanation": "[Provide a brief explanation for your evaluation]"
-}}
-""".strip()
+}
+```
 
-### Relevance
+#### Relevance Results:
 
-RELEVANT           382
-
-PARTLY_RELEVANT     13
-
+- **RELEVANT**: `382`
+- **PARTLY_RELEVANT**: `13`
 
 ## Monitoring
 
-The online evaluation is accessible through a Streamlit app. When running locally, you can access the app at: 127.0.0.1::8501
+The online evaluation is accessible through a **Streamlit** app. When running locally, you can access the app at:
 
-The evaluation results are saved in a PostgreSQL database.
+```
+http://127.0.0.1:8501
+```
+
+The evaluation results are saved in a **PostgreSQL** database.
+
 
 
